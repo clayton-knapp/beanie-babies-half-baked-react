@@ -31,7 +31,9 @@ function App() {
           disabled={(page === 1)}
           onClick={()=> setPage(page - 1)}
         >Previous Page</button>
-        {/* on click, this button should increment the page in state  */}
+        {/* on click, this button should increment the page in state  */
+        }
+        {/* Disable button if the returned array is les than per page meaning we are at the end of the array - EDGE CASE IT IS EXACTLY AMOUNT LEFT */}
         <button 
           disabled={beanieBabies.length < perPage}
           onClick={()=> setPage(page + 1)}
