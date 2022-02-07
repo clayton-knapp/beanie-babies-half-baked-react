@@ -1,10 +1,10 @@
 import { client, checkError } from './client';
 
-export async function getBeanieBabies(from, to) {
+export async function getBeanieBabies(start, end) {
   const response = await client
     .from('beanie_babies')
     .select()
-    .range(from, to);
+    .range(start, end);
 
   return checkError(response);
 }

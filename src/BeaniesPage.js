@@ -10,15 +10,15 @@ function App() {
   
   useEffect(() => {
     async function fetch() {
-      const from = page * perPage - perPage;
-      const to = page * perPage;
-      const beanies = await getBeanieBabies(from, to);
+      const start = (page * perPage) - perPage;
+      const end = page * perPage - 1;
+      const beanies = await getBeanieBabies(start, end);
 
       setBeanieBabies(beanies);
     }
 
     fetch();
-  }, []); // what can you do with this array to trigger a fetch every time the page changes?
+  }, [page]); // what can you do with this array to trigger a fetch every time the page changes?
 
 
   return (
