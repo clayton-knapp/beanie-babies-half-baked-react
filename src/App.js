@@ -21,13 +21,13 @@ export default function App() {
           </li> 
         </ul> */}
         <Switch>
+          <Route exact path="/Detail/:id"> 
+            <BeanieDetail />
+            {/* this route should point to a particular beanie baby by id and render that specific BeanieDetail page */}
+          </Route>
           <Route exact path="/">
             <BeaniesPage />
             {/* this home page route should list all the beanies */}
-          </Route>
-          <Route path="/Detail/:id"> 
-            <BeanieDetail />
-            {/* this route should point to a particular beanie baby by id and render that specific BeanieDetail page */}
           </Route>
         </Switch>
       </div>
