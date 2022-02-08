@@ -10,37 +10,33 @@ function App() {
   //STRETCH FILTER
   const [query, setQuery] = useState('');
   
+  async function fetchAndSetBeanieBabies() {
+    const start = (page * perPage) - perPage;
+    const end = page * perPage - 1;
+    const beanies = await getBeanieBabies(start, end);
+
+    setBeanieBabies(beanies);
+  }
+
+  async function fetchAndSetBeanieBabiesNoRangeFilter() {
+    const allBeanies = await getBeanieBabiesNoRange();
+
+    const filteredBeanies = allBeanies.filter((beanie) => 
+      beanie.title.includes(query)
+    );
+    // console.log(filteredBeanies);
+    setBeanieBabies(filteredBeanies);
+  }
+
   useEffect(() => {
-    
-    async function fetchAndSetBeanieBabies() {
-      const start = (page * perPage) - perPage;
-      const end = page * perPage - 1;
-      const beanies = await getBeanieBabies(start, end);
-
-      setBeanieBabies(beanies);
-    }
-
-    async function fetchAndSetBeanieBabiesNoRange() {
-      const allBeanies = await getBeanieBabiesNoRange();
-
-      const filteredBeanies = allBeanies.filter((beanie) => 
-        beanie.title.includes(query)
-      );
-
-      // console.log(filteredBeanies);
-
-      setBeanieBabies(filteredBeanies);
-    }
-
       //STRETCH - FILTER
     if (query) {
-      fetchAndSetBeanieBabiesNoRange();
+      fetchAndSetBeanieBabiesNoRangeFilter();
     }
     else {
-      if (!query) {
-        fetchAndSetBeanieBabies();
-      }
+      fetchAndSetBeanieBabies();
     }
+
 
 
     fetchAndSetBeanieBabies();
