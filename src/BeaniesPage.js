@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { getBeanieBabies } from './services/fetch-utils';
+import { getBeanieBabies, getBeanieBabiesNoRange } from './services/fetch-utils';
 import BeaniesList from './BeaniesList';
 
 function App() {
@@ -11,31 +11,41 @@ function App() {
   const [query, setQuery] = useState('');
   
   useEffect(() => {
+    
     async function fetchAndSetBeanieBabies() {
       const start = (page * perPage) - perPage;
       const end = page * perPage - 1;
       const beanies = await getBeanieBabies(start, end);
 
-      //STRETCH - FILTER
-      if (query) {
-        const filteredBeanies = beanies.filter((beanie) => 
-          beanie.title.includes(query)
-        );
-        setBeanieBabies([...filteredBeanies]);
+      setBeanieBabies(beanies);
+    }
 
-        console.log(filteredBeanies);
-      }
-      else {
-        if (!query) {
-          setBeanieBabies([...beanies]);
-        }
+    async function fetchAndSetBeanieBabiesNoRange() {
+      const allBeanies = await getBeanieBabiesNoRange();
+
+      const filteredBeanies = allBeanies.filter((beanie) => 
+        beanie.title.includes(query)
+      );
+
+      // console.log(filteredBeanies);
+
+      setBeanieBabies(filteredBeanies);
+    }
+
+      //STRETCH - FILTER
+    if (query) {
+      fetchAndSetBeanieBabiesNoRange();
+    }
+    else {
+      if (!query) {
+        fetchAndSetBeanieBabies();
       }
     }
+
 
     fetchAndSetBeanieBabies();
   }, [page, query]); // what can you do with this array to trigger a fetch every time the page changes?
 
-  console.log(query);
 
   return (
     <>
@@ -55,7 +65,7 @@ function App() {
           onClick={()=> setPage(page + 1)}
         >Next Page</button>
         <br></br>
-        <label> Filter:
+        <label> Search All BBs:
           <input
             onChange={(e)=> 
               setQuery(e.target.value)
