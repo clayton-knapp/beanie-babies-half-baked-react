@@ -7,19 +7,35 @@ function App() {
   const [beanieBabies, setBeanieBabies] = useState([]);
   const [page, setPage] = useState(1);
   const perPage = 20;
+  //STRETCH FILTER
+  const [query, setQuery] = useState('');
   
   useEffect(() => {
-    async function fetch() {
+    async function fetchAndSetBeanieBabies() {
       const start = (page * perPage) - perPage;
       const end = page * perPage - 1;
       const beanies = await getBeanieBabies(start, end);
 
-      setBeanieBabies(beanies);
+      //STRETCH - FILTER
+      if (query) {
+        const filteredBeanies = beanies.filter((beanie) => 
+          beanie.title.includes(query)
+        );
+        setBeanieBabies([...filteredBeanies]);
+
+        console.log(filteredBeanies);
+      }
+      else {
+        if (!query) {
+          setBeanieBabies([...beanies]);
+        }
+      }
     }
 
-    fetch();
-  }, [page]); // what can you do with this array to trigger a fetch every time the page changes?
+    fetchAndSetBeanieBabies();
+  }, [page, query]); // what can you do with this array to trigger a fetch every time the page changes?
 
+  console.log(query);
 
   return (
     <>
@@ -38,6 +54,14 @@ function App() {
           disabled={beanieBabies.length < perPage}
           onClick={()=> setPage(page + 1)}
         >Next Page</button>
+        <br></br>
+        <label> Filter:
+          <input
+            onChange={(e)=> 
+              setQuery(e.target.value)
+            }
+          ></input>
+        </label>
       </div>
       {/* pass the beanie babies into the BeaniesList component */}
       <BeaniesList 
