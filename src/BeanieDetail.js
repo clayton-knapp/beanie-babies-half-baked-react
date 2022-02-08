@@ -14,15 +14,13 @@ export default function BeanieDetail() {
     // you'll need to define a fetch function here (then call it below) that gets this page's beanie baby and injects it into state using the correct state handler
     async function fetchAndSetBeanieBaby() {
       const data = await getSingleBeanie(params.id);
-
       setBeanieBaby(data);
-      
-      console.log(data);
+      // console.log(data);
     }
     
     fetchAndSetBeanieBaby();
 
-  }, []); // note that you'll want the id from the url in the dependency array because you want the useEffect callback to get called every time the url changes 
+  }, []); // note that you'll want the id from the url in the dependency array because you want the useEffect callback to get called every time the url changes - SEEMS TO WORK WITHOUT THIS
 
   function handleBeanieClick() {
     // here's a challenge. How can you link on click to the beanie baby's correct entry in the official beanie baby fan site?

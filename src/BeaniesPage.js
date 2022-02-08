@@ -2,10 +2,15 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { getBeanieBabies, getBeanieBabiesNoRange } from './services/fetch-utils';
 import BeaniesList from './BeaniesList';
+import { useParams, Link } from 'react-router-dom';
 
 function App() {
+  //STRETCH URL
+  const params = useParams();
+  // console.log(typeof parseInt(params.page));
+  
   const [beanieBabies, setBeanieBabies] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(parseInt(params.page));
   const perPage = 20;
   //STRETCH FILTER
   const [query, setQuery] = useState('');
@@ -45,17 +50,21 @@ function App() {
       <div className='buttons'>
         {/* on click, this button should decrement the page in state  */}
         {/* also, disable this button when you are on the first page */}
-        <button 
-          disabled={(page === 1)}
-          onClick={()=> setPage(page - 1)}
-        >Previous Page</button>
+        <Link to={`/${page - 1}`}>
+          <button 
+            disabled={(page === 1)}
+            onClick={()=> setPage(page - 1)}
+          >Previous Page</button>
+        </Link>
         {/* on click, this button should increment the page in state  */
         }
         {/* Disable button if the returned array is les than per page meaning we are at the end of the array - EDGE CASE IT IS EXACTLY AMOUNT LEFT */}
-        <button 
-          disabled={beanieBabies.length < perPage}
-          onClick={()=> setPage(page + 1)}
-        >Next Page</button>
+        <Link to={`/${page + 1}`}>
+          <button 
+            disabled={beanieBabies.length < perPage}
+            onClick={()=> setPage(page + 1)}
+          >Next Page</button>
+        </Link>
         <br></br>
         <label> Search All BBs:
           <input
