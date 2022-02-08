@@ -1,10 +1,18 @@
 import { client, checkError } from './client';
 
-export async function getBeanieBabies(from = 0, to = 30) {
+export async function getBeanieBabies(start, end) {
   const response = await client
     .from('beanie_babies')
     .select()
-    .range(from, to);
+    .range(start, end);
+
+  return checkError(response);
+}
+
+export async function getBeanieBabiesNoRange() {
+  const response = await client
+    .from('beanie_babies')
+    .select();
 
   return checkError(response);
 }
