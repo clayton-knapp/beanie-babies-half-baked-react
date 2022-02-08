@@ -36,10 +36,6 @@ function App() {
     else {
       fetchAndSetBeanieBabies();
     }
-
-
-
-    fetchAndSetBeanieBabies();
   }, [page, query]); // what can you do with this array to trigger a fetch every time the page changes?
 
 
