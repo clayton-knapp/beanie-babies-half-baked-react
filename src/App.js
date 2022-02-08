@@ -28,6 +28,10 @@ export default function App() {
             <BeaniesPage />
             {/* this home page route should list all the beanies */}
           </Route>
+          <Route exact path="/">
+            <BeaniesPage />
+            {/* this home page route should list all the beanies */}
+          </Route>
         </Switch>
       </div>
     </Router>

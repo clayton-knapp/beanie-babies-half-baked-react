@@ -10,7 +10,7 @@ function App() {
   // console.log(typeof parseInt(params.page));
   
   const [beanieBabies, setBeanieBabies] = useState([]);
-  const [page, setPage] = useState(parseInt(params.page));
+  const [page, setPage] = useState(params.page ? parseInt(params.page) : 1);
   const perPage = 20;
   //STRETCH FILTER
   const [query, setQuery] = useState('');
@@ -68,8 +68,10 @@ function App() {
         <br></br>
         <label> Search All BBs:
           <input
-            onChange={(e)=> 
-              setQuery(e.target.value)
+            onChange={(e)=> {
+              setQuery(e.target.value);
+              // window.location.replace(`/1/${e.target.value}`);
+            }
             }
           ></input>
         </label>
