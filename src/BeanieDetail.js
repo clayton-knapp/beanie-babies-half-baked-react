@@ -1,56 +1,118 @@
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+// import { useEffect, useState } from 'react';
+// import { 
+//   Link, 
+//   useParams 
+// } from 'react-router-dom';
 import { getSingleBeanie } from './services/fetch-utils';
 
-export default function BeanieDetail() {
-  // you'll need to track the current beanieBaby in state
-  const [beanieBaby, setBeanieBaby] = useState({});
+// export default function BeanieDetail() {
+//   // you'll need to track the current beanieBaby in state
+//   const [beanieBaby, setBeanieBaby] = useState({});
   
-  // you'll need to get the route param using the appropriate react router hook
-  const params = useParams();
+//   // you'll need to get the route param using the appropriate react router hook
+//   const params = useParams();
 
 
-  useEffect(() => {
-    // you'll need to define a fetch function here (then call it below) that gets this page's beanie baby and injects it into state using the correct state handler
-    async function fetchAndSetBeanieBaby() {
-      const data = await getSingleBeanie(params.id);
-      setBeanieBaby(data);
-      // console.log(data);
-    }
+//   useEffect(() => {
+//     // you'll need to define a fetch function here (then call it below) that gets this page's beanie baby and injects it into state using the correct state handler
+//     async function fetchAndSetBeanieBaby() {
+//       const data = await getSingleBeanie(params.id);
+//       setBeanieBaby(data);
+//       // console.log(data);
+//     }
     
-    fetchAndSetBeanieBaby();
+//     fetchAndSetBeanieBaby();
 
-  }, [params.id]); // note that you'll want the id from the url in the dependency array because you want the useEffect callback to get called every time the url changes - SEEMS TO WORK WITHOUT THIS
+//   }, [params.id]); // note that you'll want the id from the url in the dependency array because you want the useEffect callback to get called every time the url changes - SEEMS TO WORK WITHOUT THIS
 
-  function handleBeanieClick() {
-    // here's a challenge. How can you link on click to the beanie baby's correct entry in the official beanie baby fan site?
-    window.open(beanieBaby.link);
+//   function handleBeanieClick() {
+//     // here's a challenge. How can you link on click to the beanie baby's correct entry in the official beanie baby fan site?
+//     window.open(beanieBaby.link);
+//   }
+
+//   return (
+//     <>
+//       {/* Feel free to uncomment and use the below code--but you'll need to figure out how to keep it from blowing up on load */}
+      
+//       <Link to='/'>Home</Link>
+//       <div className='beanie-detail' onClick={handleBeanieClick}>
+//         <div className='beanie-data'>
+//           <p>{beanieBaby.animal}</p>
+//           <p>{beanieBaby.title}</p>
+//           <p>Zodiac: {beanieBaby.astroSign}</p>
+//           <p> Born on {beanieBaby.birthday}</p>
+//           <img className='beanie-img' src={beanieBaby.image}/>
+//           <p>Color: {beanieBaby.color}</p>
+//           <p>Release Date: {beanieBaby.releaseDate}</p>
+//           <p>Retirement Date: {beanieBaby.retirementDate}</p>
+
+//           <p>Size: {beanieBaby.size}</p>
+//           <p>Theme: {beanieBaby.theme}</p>
+//           <p>Sub-Theme: {beanieBaby.subtheme}</p>
+//           <p>Style Number: {beanieBaby.styleNumber}</p>
+//           <p>Swing Tag Generation: {beanieBaby.swingTagGeneration}</p>
+//           <p>Tush Tag Generation: {beanieBaby.tushTagGeneration}</p>
+//         </div>
+//       </div>  
+//     </>
+//   );
+// }
+
+import React, { Component } from 'react';
+
+export default class BeanieDetail extends Component {
+  //initialized state with an empty object for beanieBaby
+  constructor() {
+    super();
+    this.state = {
+      beanieBaby: {}
+    };
   }
 
-  return (
-    <>
-      {/* Feel free to uncomment and use the below code--but you'll need to figure out how to keep it from blowing up on load */}
-      
-      <Link to='/'>Home</Link>
-      <div className='beanie-detail' onClick={handleBeanieClick}>
-        <div className='beanie-data'>
-          <p>{beanieBaby.animal}</p>
-          <p>{beanieBaby.title}</p>
-          <p>Zodiac: {beanieBaby.astroSign}</p>
-          <p> Born on {beanieBaby.birthday}</p>
-          <img className='beanie-img' src={beanieBaby.image}/>
-          <p>Color: {beanieBaby.color}</p>
-          <p>Release Date: {beanieBaby.releaseDate}</p>
-          <p>Retirement Date: {beanieBaby.retirementDate}</p>
+  //runs on load/mount
+  async componentDidMount() {
+    // const params = new URLSearchParams(window.location.search);
+    // console.log(params.get("id"));
+    //fetches our single beanieBaby
+    const tempBeanieBaby = await getSingleBeanie(1);
+    // console.log('temp', tempBeanieBaby);
+    //sets that beanieBaby to state running setState method and passing argument object with key and value
+    this.setState({ beanieBaby: tempBeanieBaby });
+  }
 
-          <p>Size: {beanieBaby.size}</p>
-          <p>Theme: {beanieBaby.theme}</p>
-          <p>Sub-Theme: {beanieBaby.subtheme}</p>
-          <p>Style Number: {beanieBaby.styleNumber}</p>
-          <p>Swing Tag Generation: {beanieBaby.swingTagGeneration}</p>
-          <p>Tush Tag Generation: {beanieBaby.tushTagGeneration}</p>
-        </div>
-      </div>  
-    </>
-  );
+
+  render() {
+    //destructure this.state so we can just type beanieBaby
+    const { beanieBaby } = this.state;
+    // console.log('state?', this.state.beanieBaby);
+
+    return (
+      <>
+        {/* Feel free to uncomment and use the below code--but you'll need to figure out how to keep it from blowing up on load */}
+      
+        {/* <Link to='/'>Home</Link> */}
+        <div className='beanie-detail' 
+          // onClick={handleBeanieClick}
+        >
+          <div className='beanie-data'>
+            <p>{beanieBaby.animal}</p>
+            <p>{beanieBaby.title}</p>
+            <p>Zodiac: {beanieBaby.astroSign}</p>
+            <p> Born on {beanieBaby.birthday}</p>
+            <img className='beanie-img' src={beanieBaby.image}/>
+            <p>Color: {beanieBaby.color}</p>
+            <p>Release Date: {beanieBaby.releaseDate}</p>
+            <p>Retirement Date: {beanieBaby.retirementDate}</p>
+
+            <p>Size: {beanieBaby.size}</p>
+            <p>Theme: {beanieBaby.theme}</p>
+            <p>Sub-Theme: {beanieBaby.subtheme}</p>
+            <p>Style Number: {beanieBaby.styleNumber}</p>
+            <p>Swing Tag Generation: {beanieBaby.swingTagGeneration}</p>
+            <p>Tush Tag Generation: {beanieBaby.tushTagGeneration}</p>
+          </div>
+        </div>  
+      </>
+    );
+  }
 }
